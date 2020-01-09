@@ -14,6 +14,7 @@ function timerFunc() {
 		if ((timer/1000) <= 0) {
 			clearInterval(myT)
 			document.getElementById("timer").innerHTML = 0;
+			alert("GAME ENDED AS DRAW");
 		}
 		document.getElementById("timer").innerHTML = (timer/1000) <= 0?0:timer/1000;
 	},1000);
@@ -107,6 +108,23 @@ function isAvaibleMove(prevId,currentId) {
 	return (isAvaible);
 }
 
+function checkWin(bool) {
+	let data;
+	let isWin = false;
+	let points = 0;
+	if (bool) {
+		data = player2;
+	}else{
+		data = player1;
+	}
+
+	for (var i = 0; i < data.length; i++) {
+		if (data[i] == win1[0] || data[i] == win1[1] || data[i] == win1[2]) {
+				points++;			
+		}
+	}
+	return points==3?true:false;	
+}
 function validateMove(id) {
 	let data = moves[id-1];
 	let isAvaible = false;
@@ -131,7 +149,6 @@ setKey = (e)=>{
 		}
 	}
 	if (currentId != 0 && isSelected && isValid && isAvaibleMove(currentId,id)) {
-		console.log("SELECTED!!!");
 		format("current2",currentId);
 		formatRemove(currentId);
 		movesTable[Number(currentId)-1] = true;
@@ -144,13 +161,16 @@ setKey = (e)=>{
 		check = true;
 		current = !current;
 		document.getElementById("current").innerHTML = (current?"PLAYER 1":"PLAYER 2");
+		if (checkWin(current)) {
+			let msg = `PLAYER ${current?2:1} WON`;
+			alert(msg);
+		}
 	}
 	validateMove(id);
 
 	if (isvalid(player1,player2,current,id) && currentId == 0 && !check && validateMove(id)) {
 		currentId = id;
 		isSelected = true;
-		console.log("SELECTING...")
 		format("current",id)
 	}
 	
