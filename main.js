@@ -61,9 +61,9 @@ function move(current,previous,bool) {
 		move2(player2);		
 	}
 	function move2(data) {
-		for (var i = 0; i < player1.length; i++) {
-			if (player1[i] == previous) {
-				player1[i] = Number(current);
+		for (var i = 0; i < data.length; i++) {
+			if (data[i] == previous) {
+				data[i] = Number(current);
 			}
 		}
 	}
@@ -82,7 +82,6 @@ setKey = (e)=>{
 	if (currentId != 0 && isSelected && isValid) {
 
 		console.log("SELECTED!!!")
-		// format("current2",e.target.id);
 		format("current2",currentId);
 		formatRemove(currentId);
 		format(current?"player1":"player2",e.target.id);
@@ -91,6 +90,7 @@ setKey = (e)=>{
 		currentId = 0;
 		isSelected = false;
 		check = true;
+		current = !current;
 	}
 
 	if (isvalid(player1,player2,current,Number(e.target.id)) && currentId == 0 && !check) {
