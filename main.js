@@ -79,18 +79,17 @@ function move(current,previous,bool) {
 	}
 }
 
-function isAvaibleMove(id) {
-	var data = moves[id-1];
+function isAvaibleMove(prevId,currentId) {
+	var data = moves[prevId-1];
 	var isAvaible = false;
-	console.log(data,id);
 	for (var i = 0; i < data.length; i++) {
-		let x = data[i];
-	console.log(x,movesTable[x-1]);
-		if (movesTable[x-1]) {
+		if (data[i] == currentId) {
 			isAvaible = true;
 		}
 	}
+	return (isAvaible);
 }
+
 function validateMove(id) {
 	let data = moves[id-1];
 	let isAvaible = false;
@@ -114,9 +113,7 @@ setKey = (e)=>{
 			isValid = false;
 		}
 	}
-	if (currentId != 0 && isSelected && isValid) {
-	// isAvaibleMove(currentId)
-
+	if (currentId != 0 && isSelected && isValid && isAvaibleMove(currentId,id)) {
 		console.log("SELECTED!!!")
 		format("current2",currentId);
 		formatRemove(currentId);
