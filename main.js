@@ -5,9 +5,19 @@ var win2 = [3,5,7];
 var current = true; //TRUE FOR PLAYER ONE;
 var currentId = 0;
 var isSelected = false;
+var movesTable =[];
+
+for (var i = 0; i < 9; i++) {
+	movesTable.push(true);
+}
+var moves = [[2,4,5],[1,3,5],[2,5,6],[1,5,7],[1,2,3,4,6,7,8,9],[3,5,9],[4,5,8],[7,5,9],[5,6,8]]
+
+// console.log(moves[4]);
 
 function intialize(player,data) {
 	data.forEach(x=>{
+		// console.log(x)
+		movesTable[x-1] = false;
 		if (player) {
 			format("player1",x);
 		}else{
@@ -69,35 +79,65 @@ function move(current,previous,bool) {
 	}
 }
 
+function isAvaibleMove(id) {
+	var data = moves[id-1];
+	var isAvaible = false;
+	console.log(data,id);
+	for (var i = 0; i < data.length; i++) {
+		let x = data[i];
+	console.log(x,movesTable[x-1]);
+		if (movesTable[x-1]) {
+			isAvaible = true;
+		}
+	}
+}
+function validateMove(id) {
+	let data = moves[id-1];
+	let isAvaible = false;
+	for (var i = 0; i < data.length; i++) {
+		let x = data[i];
+		if (movesTable[x-1]) {
+			isAvaible = true;
+		}
+	}
+	return isAvaible;
+}
+
 //GET BUTTON NUMBER AND ADJUST SCORE; 
 setKey = (e)=>{
 	var check = false;
 	var userData = current?player1:player2;
 	var isValid = true;
+	var id = Number(e.target.id);
 	for (var i = 0; i < userData.length; i++) {
-		if (userData[i] == e.target.id) {
+		if (userData[i] == id) {
 			isValid = false;
 		}
 	}
 	if (currentId != 0 && isSelected && isValid) {
+	// isAvaibleMove(currentId)
 
 		console.log("SELECTED!!!")
 		format("current2",currentId);
 		formatRemove(currentId);
-		format(current?"player1":"player2",e.target.id);
-		move(e.target.id,currentId,current);
+		movesTable[Number(currentId)-1] = true;
+		movesTable[id-1] = false;		
+		format(current?"player1":"player2",id);
+		move(id,currentId,current);
+		console.log(id)
 
 		currentId = 0;
 		isSelected = false;
 		check = true;
 		current = !current;
 	}
+	validateMove(id);
 
-	if (isvalid(player1,player2,current,Number(e.target.id)) && currentId == 0 && !check) {
-		currentId = Number(e.target.id);
+	if (isvalid(player1,player2,current,id) && currentId == 0 && !check && validateMove(id)) {
+		currentId = id;
 		isSelected = true;
 		console.log("SELECTING...")
-		format("current",e.target.id)
+		format("current",id)
 	}
 	
 	
@@ -106,7 +146,8 @@ setKey = (e)=>{
 // CAPTURE CLICK;
 document.addEventListener('click', function(e) {
 	// CHECKS IF BUTTON IS CLICKED;
-	if (e.target.id >=1 && e.target.id <=9) {
+	let id = Number(e.target.id)
+	if (id >=1 && id <=9) {
    	 setKey(e);
 	}
 });
