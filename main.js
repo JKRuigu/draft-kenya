@@ -127,6 +127,14 @@ function checkWin(bool) {
 				points++;			
 		}
 	}
+	if (points != 3) {
+		points =0;
+		for (var i = 0; i < data.length; i++) {
+			if (data[i] == win2[0] || data[i] == win2[1] || data[i] == win2[2]) {
+					points++;			
+			}
+		}	
+	}
 	return points==3?true:false;	
 }
 function validateMove(id) {
