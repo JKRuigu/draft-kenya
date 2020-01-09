@@ -6,6 +6,18 @@ var current = true; //TRUE FOR PLAYER ONE;
 var currentId = 0;
 var isSelected = false;
 var movesTable =[];
+var timer =500000;
+
+function timerFunc() {
+	var myT = setInterval(()=>{
+		timer -=1000;
+		if ((timer/1000) <= 0) {
+			clearInterval(myT)
+			document.getElementById("timer").innerHTML = 0;
+		}
+		document.getElementById("timer").innerHTML = (timer/1000) <= 0?0:timer/1000;
+	},1000);
+}
 
 for (var i = 0; i < 9; i++) {
 	movesTable.push(true);
@@ -15,6 +27,7 @@ var moves = [[2,4,5],[1,3,5],[2,5,6],[1,5,7],[1,2,3,4,6,7,8,9],[3,5,9],[4,5,8],[
 // console.log(moves[4]);
 
 function intialize(player,data) {
+	document.getElementById("current").innerHTML = (current?"PLAYER 1":"PLAYER 2");
 	data.forEach(x=>{
 		// console.log(x)
 		movesTable[x-1] = false;
@@ -24,6 +37,7 @@ function intialize(player,data) {
 			format("player2",x);			
 		}
 	});
+	timerFunc();
 }
 
 intialize(true,player1);
@@ -117,19 +131,19 @@ setKey = (e)=>{
 		}
 	}
 	if (currentId != 0 && isSelected && isValid && isAvaibleMove(currentId,id)) {
-		console.log("SELECTED!!!")
+		console.log("SELECTED!!!");
 		format("current2",currentId);
 		formatRemove(currentId);
 		movesTable[Number(currentId)-1] = true;
 		movesTable[id-1] = false;		
 		format(current?"player1":"player2",id);
 		move(id,currentId,current);
-		console.log(id)
 
 		currentId = 0;
 		isSelected = false;
 		check = true;
 		current = !current;
+		document.getElementById("current").innerHTML = (current?"PLAYER 1":"PLAYER 2");
 	}
 	validateMove(id);
 
