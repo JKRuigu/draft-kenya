@@ -60,6 +60,10 @@ function formatRemove(id) {
 	document.getElementById(id).classList.add("default");
 }
 
+function formatRemoveSelect(id) {
+	document.getElementById(id).classList.remove("current");
+}
+
 
 function isMove(data) {
 	
@@ -167,13 +171,19 @@ setKey = (e)=>{
 		}
 	}
 	validateMove(id);
+	if (isSelected && isvalid(player1,player2,current,id)) {
+		formatRemoveSelect(currentId);
+		currentId = id;
+		isSelected = true;
+		format("current",id);
+	}
 
 	if (isvalid(player1,player2,current,id) && currentId == 0 && !check && validateMove(id)) {
 		currentId = id;
 		isSelected = true;
 		format("current",id)
 	}
-	
+
 	
 }
 
