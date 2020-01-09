@@ -31,12 +31,15 @@ intialize(false,player2);
 
 function format(player,id) {
 	document.getElementById(id).classList.remove("default");
+	document.getElementById(id).innerHTML = (player =="player1"?"P1":"P2");
 	document.getElementById(id).classList.add(player);
 }
 
 function formatRemove(id) {
 	document.getElementById(id).classList.remove("player1");
 	document.getElementById(id).classList.remove("player2");
+
+	document.getElementById(id).innerHTML = "";
 	document.getElementById(id).classList.remove("current");
 	document.getElementById(id).classList.remove("current2");
 	document.getElementById(id).classList.add("default");
